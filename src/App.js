@@ -9,12 +9,27 @@ function Square({ value, onSquareClick }) {
 }
 
 export default function Board() {
+  const [xIsNext, setXIsNext] = useState(true); // 手番の処理。先手“X”＝ture。
   const [squares, setSquares] = useState(Array(9).fill(null));
 
   function handleClick(i) {
+    if (squares[i]) {
+      return;
+    }
     const nextSquares = squares.slice();
-    nextSquares[i] = "X";
-    setSquares(nextSquares);
+    /**
+     * プレーヤの手番なのかを確認し交互に着手できるようにする。
+     * - xIsNext（真偽値型）反転してstate保存。
+     * マス目に既に X や O の値があるかどうかをチェック。空いているマス目にだけ X や O を追加できるようにする。
+     * - 早期リターン (early return) 
+     */
+    if (xIsNext) {
+      nextSquares[i] = 'x';
+    } else {
+      nextSquares[i] = 'o';
+    }
+    setSquares(nextSquares); // 盤面に反映
+    setXIsNext(!xIsNext); // 反転してstate保存
   }
 
   return (
