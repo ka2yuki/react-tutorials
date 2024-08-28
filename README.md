@@ -1,3 +1,50 @@
+# Tutorial
+### 章 毎に タスクなどを README.md に書き出して進める
+
+# :return: 巻き戻す機能 :cycle: 
+- squares 配列をミューテート（書き換え）していた場合、タイムトラベルの実装は非常に困難。
+- 各着手ごとに slice() を使って squares 配列の新しいコピーを作成し、それをイミュータブルなものとして扱う
+- このおかげで、過去のすべてのバージョンの squares 配列を保存し、すでに発生した着手の間で移動することができるようになります。
+  - [link](https://ja.react.dev/learn/tutorial-tic-tac-toe#storing-a-history-of-moves)
+
+方法
+- 過去の squares 配列を、history という名前の別の配列に入れて、それを新たに state 変数として保持する
+- history 配列は、最初の着手から最新の着手まで、盤面のすべての状態を表現しており、以下のような形になります。
+
+```js
+[ // STATE: history
+  // Before first move
+  [null, null, null, null, null, null, null, null, null], // 初期
+  // After first move
+  [null, null, null, null, 'X', null, null, null, null], // 初手
+  // After second move
+  [null, null, null, null, 'X', null, null, null, 'O'],
+  // ...
+]
+```
+
+## もう一度 state をリフトアップ :arrow_top:
+- ゲーム履歴全体を保持する state の history を置く場所：
+  - 新しいトップレベルのコンポーネント Gameを作成
+- Gameコンポーネントは Boardのデータを完全に制御し、history からの過去の盤面の状態を Boardにレンダーさせることができます。  
+  
+`<Game/> → <Board/> → <Square/>`
+
+Todo:
+- Gameコンポーネントに現在の手番と着手の履歴を管理するための state をリフトアップ
+- 現在の盤面をレンダーするには、history の最後にあるマス目の配列を読み取る `[ [...], [...] ]`
+- ゲーム内容を更新するための関数handlePlay を Board コンポーネントに props として渡す
+  - Board コンポーネントが 3 つの props を受け取るようにします。xIsNext、squares、そして、プレーヤの着手時に Board がコールして新たな盤面の状態を伝えるための onPlay 関数
+
+コード説明：
+  
+```js
+setHistory([...history, nextSquares]);
+```
+  
+history が [[null,null,null], ["X",null,null]] で nextSquares が ["X",null,"O"] の場合、新しい [...history, nextSquares] 配列は [[null,null,null], ["X",null,null], ["X",null,"O"]] になります。
+
+---
 2024年8月26日
 - Chromeエクステンションは 結構javascript読み込んでた。
   - 検証 > Sources > Content scripts

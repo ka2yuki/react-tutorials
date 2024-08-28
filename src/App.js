@@ -8,10 +8,7 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-export default function Board() {
-  const [xIsNext, setXIsNext] = useState(true); // boolean. 手番の処理。先手“X”＝ture。
-  const [squares, setSquares] = useState(Array(9).fill(null)); // any. "X", "O", null
-
+function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
     /**
      * 
@@ -41,8 +38,7 @@ export default function Board() {
     } else {
       nextSquares[i] = 'O';
     }
-    setSquares(nextSquares); // 盤面に反映
-    setXIsNext(!xIsNext); // 反転してstate保存
+    onPlay(nextSquares);  // 盤面を更新
   }
 
   /**
@@ -51,7 +47,6 @@ export default function Board() {
    *   - status に 結果をテキストstringで保持する。
    * ゲームが続行中の場合は、次がどちらの手番なのか表示する。
    */
-
   const winner = calculateWinner(squares);
   let status;
   if (winner) { // “Winner: X” または “Winner: O” というテキストを表示
@@ -128,4 +123,26 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+export default function Game() {
+  const [xIsNext, setXIsNext] = useState(true); // boolean. 手番の処理。先手“X”＝ture。
+  const [history, setHistory] = useState(Array(9).fill(null)); // any. "X", "O", null
+  const currentSquares = history[history.length - 1];
+
+  function handlePlay(nextSquares) {
+    setHistory([...history, nextSquares]); // 盤面を更新反映
+    setXIsNext(!xIsNext); // 反転してstate保存
+  }
+
+  return (
+    <div className="game">
+      <div className="game-board">
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <div className="game-info">
+        <ol>{ /** TODO */}</ol>
+      </div>
+    </div>
+  );
 }
