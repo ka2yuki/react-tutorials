@@ -23,7 +23,7 @@ function Board({ xIsNext, squares, onPlay }) {
       > null || false
       false
      */
-    if (squares[i] || calculateWinner(squares)) { // false/null未選択の場合は右のコード勝利判定条件を実行。目視の場合は揃っているかどうか。
+    if (calculateWinner(squares) || squares[i]) { // false/null未選択の場合は右のコード勝利判定条件を実行。目視の場合は揃っているかどうか。
       return;
     }
     const nextSquares = squares.slice();
@@ -77,6 +77,47 @@ function Board({ xIsNext, squares, onPlay }) {
   );
 }
 
+export default function Game() {
+  const [xIsNext, setXIsNext] = useState(true); // boolean. 手番の処理。先手“X”＝ture。
+  const [history, setHistory] = useState([Array(9).fill(null)]); // any. "X", "O", null
+  const currentSquares = history[history.length - 1];
+
+  function handlePlay(nextSquares) {
+    setHistory([...history, nextSquares]); // 盤面を更新反映
+    setXIsNext(!xIsNext); // 反転してstate保存
+  }
+
+  function jumpTo(nextMove) {
+    // TODO
+  }
+
+  // 大抵は、squares実際の配列の中身 が必要になりますが、今回の着手リストのレンダーで必要なのはインデックスの方move だけ.
+  const moves = history.map((squares, move) => {
+    let description;
+    if (move > 0) {
+      description = 'Go to move #' + move;
+    } else {
+      description = 'Go to game start';
+    }
+    return (
+      <li>
+        <button onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    )
+  });
+
+  return (
+    <div className="game">
+      <div className="game-board">
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <div className="game-info">
+        <ol>{moves}</ol>
+      </div>
+    </div>
+  );
+}
+
 /**
  * Return: string || null  
  *   - 'X'、'O' または null  
@@ -114,7 +155,7 @@ function calculateWinner(squares) {
     [1, 4, 7],
     [2, 5, 8],
     [0, 4, 8],
-    [2, 4, 6]
+    [2, 4, 6],
   ]; // 勝利条件
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
@@ -123,26 +164,4 @@ function calculateWinner(squares) {
     }
   }
   return null;
-}
-
-export default function Game() {
-  const [xIsNext, setXIsNext] = useState(true); // boolean. 手番の処理。先手“X”＝ture。
-  const [history, setHistory] = useState(Array(9).fill(null)); // any. "X", "O", null
-  const currentSquares = history[history.length - 1];
-
-  function handlePlay(nextSquares) {
-    setHistory([...history, nextSquares]); // 盤面を更新反映
-    setXIsNext(!xIsNext); // 反転してstate保存
-  }
-
-  return (
-    <div className="game">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
-      </div>
-      <div className="game-info">
-        <ol>{ /** TODO */}</ol>
-      </div>
-    </div>
-  );
 }

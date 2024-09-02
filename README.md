@@ -1,7 +1,8 @@
-# Tutorial
-### 章 毎に タスクなどを README.md に書き出して進める
-
-# :return: 巻き戻す機能 :cycle: 
+# Tutorial MEMO:note:
+### README.md に メモする
+- 章ごと：タスクなど
+  
+## 巻き戻す機能 
 - squares 配列をミューテート（書き換え）していた場合、タイムトラベルの実装は非常に困難。
 - 各着手ごとに slice() を使って squares 配列の新しいコピーを作成し、それをイミュータブルなものとして扱う
 - このおかげで、過去のすべてのバージョンの squares 配列を保存し、すでに発生した着手の間で移動することができるようになります。
@@ -22,8 +23,8 @@
   // ...
 ]
 ```
-
-## もう一度 state をリフトアップ :arrow_top:
+  
+## もう一度 state をリフトアップ
 - ゲーム履歴全体を保持する state の history を置く場所：
   - 新しいトップレベルのコンポーネント Gameを作成
 - Gameコンポーネントは Boardのデータを完全に制御し、history からの過去の盤面の状態を Boardにレンダーさせることができます。  
@@ -44,10 +45,41 @@ setHistory([...history, nextSquares]);
   
 history が [[null,null,null], ["X",null,null]] で nextSquares が ["X",null,"O"] の場合、新しい [...history, nextSquares] 配列は [[null,null,null], ["X",null,null], ["X",null,"O"]] になります。
 
+
+## 過去の着手の表示 
+React で複数のアイテムをレンダーするには：React 要素の配列を使うことができる。  
+- state として着手履歴の配列である history がありますので、ここでそれを React 要素の配列に変換する。
+- JavaScript では、配列を別の配列に変換するために、配列の map メソッド を使うことがでる。
+- historyを *mapで変換*  して、画面上のボタンを表す **React要素の配列** にする。
+  
+## codeﾒﾓ 以降検討
+```js
+function Board():
+```  
+  
+## ハマッタポイント
+### 描画されない
+historyのstateを配列で括弧っていなかった
+- `Uncaught TypeError: Cannot read properties of null (reading '0')`
+  - at calculateWinner (App.js:161:1)
+  - at Board (App.js:50:1)
+```js
+- const [history, setHistory] = useState(Array(9).fill(null)); // before
++ const [history, setHistory] = useState([Array(9).fill(null)]); // update
+```
+
+```js
+// at Board (App.js:50:1)
+const winner = calculateWinner(squares);
+// at calculateWinner (App.js:161:1)
+if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) { ... }// error
+```
+
 ---
 2024年8月26日
 - Chromeエクステンションは 結構javascript読み込んでた。
   - 検証 > Sources > Content scripts
+---
 
 # Getting Started with Create React App
 
