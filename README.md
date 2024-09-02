@@ -43,7 +43,7 @@ Todo:
 setHistory([...history, nextSquares]);
 ```
   
-history が [[null,null,null], ["X",null,null]] で nextSquares が ["X",null,"O"] の場合、新しい [...history, nextSquares] 配列は [[null,null,null], ["X",null,null], ["X",null,"O"]] になります。
+history が `[[null,null,null], ["X",null,null]]` で nextSquares が `["X",null,"O"]` の場合、新しい `[...history, nextSquares]` 配列は `[[null,null,null], ["X",null,null], ["X",null,"O"]]` になります。
 
 
 ## 過去の着手の表示 
