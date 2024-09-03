@@ -79,16 +79,22 @@ function Board({ xIsNext, squares, onPlay }) {
 
 export default function Game() {
   const [xIsNext, setXIsNext] = useState(true); // boolean. 手番の処理。先手“X”＝ture。
-  const [history, setHistory] = useState([Array(9).fill(null)]); // any. "X", "O", null
-  const currentSquares = history[history.length - 1];
+  const [history, setHistory] = useState([Array(9).fill(null)]); // any. ["X", "O", null, ...]
+  const [currentMove, setCurrentMove] = useState(0);
+  const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares) {
-    setHistory([...history, nextSquares]); // 盤面を更新反映
+    // currentMove は jumpTo() 使用する 過去履歴の移動先の 変数。
+    // currentMove + 1 は 履歴のうち着手時点までの部分のみが保持。
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory); // 盤面を更新反映
+    setCurrentMove(nextHistory.length - 1); // 着手が起きるたびに、最新の履歴エントリを指し示すように currentMove を更新する必要があります。
     setXIsNext(!xIsNext); // 反転してstate保存
   }
 
   function jumpTo(nextMove) {
-    // TODO
+    setCurrentMove(nextMove);
+    setXIsNext(nextMove % 2 === 0);
   }
 
   // 大抵は、squares実際の配列の中身 が必要になりますが、今回の着手リストのレンダーで必要なのはインデックスの方move だけ.
@@ -100,7 +106,7 @@ export default function Game() {
       description = 'Go to game start';
     }
     return (
-      <li>
+      <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
       </li>
     )
