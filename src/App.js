@@ -78,9 +78,9 @@ function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function Game() {
-  const [xIsNext, setXIsNext] = useState(true); // boolean. 手番の処理。先手“X”＝ture。
   const [history, setHistory] = useState([Array(9).fill(null)]); // any. ["X", "O", null, ...]
   const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0; // boolean. 手番の処理。先手“X”＝ture。
   const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares) {
@@ -89,12 +89,10 @@ export default function Game() {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory); // 盤面を更新反映
     setCurrentMove(nextHistory.length - 1); // 着手が起きるたびに、最新の履歴エントリを指し示すように currentMove を更新する必要があります。
-    setXIsNext(!xIsNext); // 反転してstate保存
   }
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
-    setXIsNext(nextMove % 2 === 0);
   }
 
   // 大抵は、squares実際の配列の中身 が必要になりますが、今回の着手リストのレンダーで必要なのはインデックスの方move だけ.
