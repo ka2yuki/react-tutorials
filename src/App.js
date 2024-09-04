@@ -111,13 +111,23 @@ export default function Game() {
   });
 
   return (
-    <div className="game">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+    <div>
+      <div className="game">
+        <div className="game-board">
+          <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        </div>
+        <div className="game-info">
+          <ol>{moves}</ol>
+        </div>
       </div>
-      <div className="game-info">
-        <ol>{moves}</ol>
-      </div>
+      <ul>
+        <li>
+          📖react.dev:<a href="https://ja.react.dev/learn/tutorial-tic-tac-toe">Tutorial</a>
+        </li>
+        <li>
+          my Github <a href="https://github.com/ka2yuki/react-tutorials">repository</a>
+        </li>
+      </ul>
     </div>
   );
 }
