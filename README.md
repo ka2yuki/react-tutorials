@@ -1,4 +1,6 @@
 # Tutorial MEMO:note:
+- GitHub Actionsでデプロイしようと思ったが出来なかった。[.github/workflows](https://github.com/ka2yuki/react-tutorials/blob/master/.github/workflows/firebase-hosting-merge.yml)
+
 ### README.md に メモする
 - 章ごと：タスクなど
   
