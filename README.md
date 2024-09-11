@@ -1,5 +1,8 @@
 # Tutorial MEMO :open_book:
-- GitHub Actionsでデプロイしようと思ったが出来なかった。[.github/workflows](https://github.com/ka2yuki/react-tutorials/blob/master/.github/workflows/firebase-hosting-merge.yml) 2024年9月4日
+- GitHub Actions: CI/CDでデプロイしてみようと思ったが良くわからなかった。。[.github/workflows](https://github.com/ka2yuki/react-tutorials/blob/master/.github/workflows/firebase-hosting-merge.yml) 2024年9月4日
+  - https://react-tutorial-eda61.web.app/
+
+---
 - README.md に メモする
   - 章ごと：タスクなど
   
