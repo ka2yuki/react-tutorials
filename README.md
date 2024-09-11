@@ -1,5 +1,5 @@
 ## Todo
-- ポートフォリオに乗せてみる。https://react-tutorial-eda61.web.app/
+- ポートフォリオに掲載してみる。https://react-tutorial-eda61.web.app/
 - 再度、memoしたところを踏まえながらブランチを新規作成して作成してみる
 - GitHub Actions: CI/CDでGitHubプッシュとついでに自動化デプロイしてみようと思ったが良くわからなかった。。[.github/workflows](https://github.com/ka2yuki/react-tutorials/blob/master/.github/workflows/firebase-hosting-merge.yml) 2024年9月4日
   - README.mdの更新でもGitHub Actionsのワークフローが実行される。。
